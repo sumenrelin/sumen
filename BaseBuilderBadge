@@ -1,0 +1,38 @@
+# ジェイソン
+ “GM Base!” 
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.34;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract BaseBuilderBadge is ERC721, Ownable {
+    uint256 public constant MAX_SUPPLY = 1000;
+    uint256 public constant MINT_PRICE = 0.001 ether;
+    uint256 public totalMinted;
+
+    mapping(address => bool) public hasMinted;
+
+    constructor() ERC721("BaseBuilderBadge", "BBB") Ownable(msg.sender) {}
+
+    function mintBadge(string memory _name) external payable {
+        require(totalMinted < MAX_SUPPLY, "All badges have been minted");
+        require(!hasMinted[msg.sender], "You already own a BaseBuilderBadge");
+        require(msg.value == MINT_PRICE, "Mint price is 0.001 ETH");
+
+        hasMinted[msg.sender] = true;
+        totalMinted++;
+
+        _safeMint(msg.sender, totalMinted);
+    }
+
+    // 查看合约信息
+    function getContractInfo() external pure returns (string memory) {
+        return "BaseBuilderBadge - Limited 1000 Base Builder NFTs on Base";
+    }
+
+    // 提取资金（合约拥有者）
+    function withdraw() external onlyOwner {
+        payable(owner()).transfer(address(this).balance);
+    }
+}
