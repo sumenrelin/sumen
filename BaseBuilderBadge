@@ -26,13 +26,14 @@ contract BaseBuilderBadge is ERC721, Ownable {
         _safeMint(msg.sender, totalMinted);
     }
 
-    // 查看合约信息
+    // 
     function getContractInfo() external pure returns (string memory) {
         return "BaseBuilderBadge - Limited 1000 Base Builder NFTs on Base";
     }
 
-    // 提取资金（合约拥有者）
+    // 
     function withdraw() external onlyOwner {
         payable(owner()).transfer(address(this).balance);
     }
 }
+正常に完了しました
