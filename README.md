@@ -5,7 +5,7 @@ pragma solidity ^0.8.24;
 contract BaseBuilderRoles {
     address public owner;
     
-    // 角色定义（基于贡献程度）
+    // 今日の言葉コンテスト）
     enum Role {
         NewBuilder,      // 新しいBuilder
         ActiveBuilder,   // アクティブBuilder
